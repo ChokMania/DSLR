@@ -7,6 +7,14 @@ Created on Tue Mar  3 10:01:15 2020
 
 import numpy as np
 
+def separation_check(house, file, i) :
+	data = np.array(file['Hogwarts House'])
+	while i < len(data):
+		if str(data[i]) != str(house):
+			break
+		i += 1
+	return i
+
 def count(data):
 	i = 0
 	for x in data:

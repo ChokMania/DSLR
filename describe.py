@@ -40,7 +40,7 @@ def create_array(file):
 	return column, maxColumnLenghts, values
 
 def display(column, maxColumnLenghts, values):
-	print("{:5}".format(""), end="  ")
+	print("{:5}".format(""), end=" ")
 	j = 0
 	for x in file.columns[0:,]:
 		print("{:>{:d}s}".format(x, maxColumnLenghts[j]), end="  ")

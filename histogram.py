@@ -7,6 +7,7 @@ Created on Wed Mar  4 14:05:10 2020
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from functions import separation_check
 
 def histogram(data, houses, title, xlabel, ylabel, separation):
 	h = data[:separation[0]]
@@ -26,14 +27,6 @@ def histogram(data, houses, title, xlabel, ylabel, separation):
 	plt.xlabel(xlabel)
 	plt.ylabel(ylabel)
 	plt.show()
-
-def separation_check(house, file, i) :
-	data = np.array(file['Hogwarts House'])
-	while i < len(data):
-		if str(data[i]) != str(house):
-			break
-		i += 1
-	return i
 
 if __name__ == '__main__':
 	houses = ['Gryffindor', 'Hufflepuff', 'Ravenclaw', 'Slytherin']
