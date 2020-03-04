@@ -14,6 +14,8 @@ def mean(data):
 		if not np.isnan(x) :
 			i += x
 			total += 1
+	if total == 0:
+		return float("nan")
 	return i / total
 
 def std(data):
@@ -24,6 +26,8 @@ def std(data):
 		if not np.isnan(x) :
 			i += (x - mean_value) ** 2
 			total += 1
+	if total == 0:
+		return float("nan")
 	return (i / (total - 1)) ** 0.5
 
 #https://en.wikipedia.org/wiki/Quartile method 4
