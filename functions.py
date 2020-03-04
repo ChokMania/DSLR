@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar  3 10:01:15 2020
+
+@author: julien.dumay
+"""
+
 import numpy as np
 
 def count(data):

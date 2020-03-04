@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar  3 10:00:56 2020
+
+@author: julien.dumay
+"""
+
 import pandas as pd
 import argparse
 from os import path
@@ -42,6 +49,7 @@ def display(column, maxColumnLenghts, values):
 		print("\n{:5}".format(printer[str(i)]), end=" ")
 		for x in range(len(column)):
 			print("{:>{:d}s}".format(values[i][x], maxColumnLenghts[x]), end="  ")
+	print()
 
 if __name__ == '__main__':
 	np.set_printoptions(suppress=True)
@@ -53,7 +61,6 @@ if __name__ == '__main__':
 	test = np.array(file)
 	column, maxColumnLenghts, values = create_array(file)
 	display(column, maxColumnLenghts, values)
-	print("\n\n\n", file.describe())
 
 
 
