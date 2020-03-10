@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar  3 10:00:56 2020
-
-@author: julien.dumay
-"""
-
 import pandas as pd
 import argparse
 from os import path

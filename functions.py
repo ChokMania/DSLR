@@ -45,7 +45,6 @@ def std(data):
 		return float("nan")
 	return (i / (total - 1)) ** 0.5
 
-#https://en.wikipedia.org/wiki/Quartile method 4
 def pc25(data):
 	data = np.sort(data)
 	total = 0
