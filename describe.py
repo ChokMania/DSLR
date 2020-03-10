@@ -1,59 +1,59 @@
+import sys
 import pandas as pd
-import argparse
-from os import path
 import numpy as np
-from functions import count, mean, std, minimum, pc25, pc50, pc75, maximum
+from tools.compute_metrics import *
+from tools.utilities import get_data
 
-function = {'0': count, '1': mean, '2': std, '3': minimum, '4': pc25, '5': pc50, '6':pc75, '7':maximum}
-printer = {'0': 'count', '1': 'mean', '2': 'std', '3': 'min', '4': '25%', '5': '50%', '6': '75%', '7': 'max'}
+select_fnc = {
+	0: count,
+	1: mean,
+	2: std,
+	3: mini,
+	4: quarter,
+	5: median,
+	6: three_quarters,
+	7: maxi
+}
 
-def check_file(file):
-	try :
-		path.exists(file)
-		pd.read_csv(file)
-	except :
-		raise argparse.ArgumentTypeError("invalid file, need a real csv file")
-	return file
+rows = ["count", "mean", "std", "min", "25%", "50%", "75%", "max"]
 
-def create_array(file):
-	column = []
-	values = [[] for k in range(8)]
-	maxColumnLenghts = [0] * len(file.columns[0:,])
-	j = 0
-	for x in file.columns[0:,]:
-		column += [[x]]
-		maxColumnLenghts[j] = len("{:s}".format(x))
-		j += 1
-	for i in range(8) :
-		for x in range(len(column)):
-			values[i] += ["{:.6f}".format(function[str(i)](test[:,x]))]
-			tmp = len(values[i][x])
-			if tmp > maxColumnLenghts[x]:
-				maxColumnLenghts[x] = tmp
-	return column, maxColumnLenghts, values
+def describe(data):
+	data_len = len(data[0])
+	i = 0
+	metrics = np.ndarray(shape=(8, data_len), dtype=float)
+	while i != 8:
+		j = 0
+		while j != data_len:
+			metrics[i][j] = select_fnc[i](data[:,j])
+			j += 1
+		i += 1
+	for i in range(len(metrics[:,0]) - 1):
+		for j in range(len(metrics[0]) - 1):
+			metrics[i][j] = np.format_float_positional(np.float(metrics[i][j]), unique=False, precision=6)
+	return metrics
 
-def display(column, maxColumnLenghts, values):
-	print("{:5}".format(""), end=" ")
-	j = 0
-	for x in file.columns[0:,]:
-		print("{:>{:d}s}".format(x, maxColumnLenghts[j]), end="  ")
-		j += 1
-	for i in range(8) :
-		print("\n{:5}".format(printer[str(i)]), end=" ")
-		for x in range(len(column)):
-			print("{:>{:d}s}".format(values[i][x], maxColumnLenghts[x]), end="  ")
+def get_width(column_name, data_column):
+	max_size = len(column_name)
+	for field in data_column:
+		max_size = max(len("%.6f"%field), max_size)
+	return max_size
+
+def clean_print(columns, data):
+	print("{:<5s}".format(' '), end='')
+	for i in range(len(columns)):
+		width = get_width(columns[i], data[:,i])
+		print("{:>{:d}s}".format(columns[i], width + 2), end='')
+
+	for i in range(len(data[:,0])):
+		print("\n{:<5s}".format(rows[i]), end='')
+		for j in range(len(data[0])):
+			width = get_width(columns[j], data[:,j])
+			print("{:>{:d}.6f}".format(data[i][j], width + 2), end='')
 	print()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	np.set_printoptions(suppress=True)
-	parser = argparse.ArgumentParser(description='Diplay dataset')
-	parser.add_argument("file", type=check_file, help="dataset to display, need to be a csv")
-	args = parser.parse_args()
-	file = pd.read_csv(args.file)
-	file = file.select_dtypes(include="number")
-	test = np.array(file)
-	column, maxColumnLenghts, values = create_array(file)
-	display(column, maxColumnLenghts, values)
-
-
-
+	data = get_data()
+	data = data.select_dtypes('number')
+	metrics = describe(data.to_numpy())
+	clean_print(data.columns, metrics)

@@ -1,30 +1,31 @@
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from functions import separation_check
+import numpy as np
+import describe
 
+houses={
+	"Ravenclaw": 1,
+	"Slytherin": 2,
+	"Gryffindor": 3,
+	"Hufflepuff": 4
+}
 
-def scatter_plot(data1, data2, legend, xlabel, ylabel, separation):
-	plt.scatter(data1[:separation[0]], data2[:separation[0]], color='green', alpha=0.5)
-	plt.scatter(data1[separation[0]:separation[1]], data2[separation[0]:separation[1]], color='blue', alpha=0.5)
-	plt.scatter(data1[separation[1]:separation[2]], data2[separation[1]:separation[2]], color='yellow', alpha=0.5)
-	plt.scatter(data1[separation[2]:], data2[separation[2]:], color='red', alpha=0.5)
-	plt.legend(legend)
-	plt.xlabel(xlabel)
-	plt.ylabel(ylabel)
-	plt.show()
+def scatter_plot(data, col_1, col_2):
+	col_1 += 2
+	col_2 += 2
+	plt.xlabel(data.columns[col_1])
+	plt.ylabel(data.columns[col_2])
+	data = data.to_numpy()
+	for house in range (1, 5):
+		x = []
+		y = []
+		for row in data:
+			if row[1] == house and not np.isnan(row[col_1]) and not np.isnan(row[col_2]):
+				x.append(row[col_1])
+				y.append(row[col_2])
+		plt.scatter(x, y, alpha=0.7, s=9)
 
-if __name__ == '__main__':
-	houses = ['Gryffindor', 'Hufflepuff', 'Ravenclaw', 'Slytherin']
-	file = pd.read_csv("resources/dataset_train.csv")
-	file = file.sort_values(by=['Hogwarts House'])
-	separation = [0] * 4
-	j = 0
-	for i in houses :
-		separation[j] += separation_check(i, file, separation[j - 1 if j > 0 else j ])
-		j += 1
-	file = file.select_dtypes(include="number")
-	test = np.array(file)
-	data1 = test[:, 2]
-	data2 = test[:, 4]
-	scatter_plot(data1, data2, houses, file.columns[2], file.columns[4], separation)
+if __name__ == "__main__":
+	data = describe.get_data()
+	data["Hogwarts House"].replace(houses, inplace=True)
+	data = data.select_dtypes('number')
+	scatter_plot(data, 1, 3)
