@@ -1,45 +1,32 @@
 import numpy as np
 import pandas as pd
-import sys
-import csv
+from tools.utilities import house, house_rev, get_data_visual, sigmoid, create_csv
 
-def get_data():
-	try:
-		data_path = sys.argv[1]
-		return (pd.read_csv(data_path))
-	except IndexError:
-		print("usage: python describe.py [your_dataset].csv")
-		sys.exit(-1)
-	except IOError:
-		print("could not read data file")
-		sys.exit(-1)
-
-def filter_data(data, house, f1, f2):
-	x = []
-	y = []
-	data = data.to_numpy()
-	for row in data:
-		if not np.isnan(row[f1]) and not np.isnan(row[f2]):
-			x.append([row[f1], row[f2]])
-			y.append(1 if row[0] == house else 0)
-	return np.array(x), np.array(y)
-
-def predict_house(student, data, result):
-	pass
+def predict_house(student, weights):
+	results = [[], [], [], []]
+	for row in weights:
+		if not np.isnan(student[row[1]]) and not np.isnan(student[row[2]]):
+			x = np.array([student[row[1]], student[row[2]]])
+			theta = np.array([row[3], row[4], row[5]])
+			mean = np.array([row[6], row[7]])
+			std = np.array([row[8], row[9]])
+			x = (x - mean) / std
+			x = np.insert(x, 0, 1, axis=0)
+			results[house[row[0]] - 1].append(sigmoid(np.dot(x, theta)))
+	for i in range(4):
+		if (len(results[i]) != 0):
+			results[i] = sum(results[i]) / len(results[i])
+		else:
+			results[i] = 0
+	return (house_rev[results.index(max(results)) + 1])
 
 if __name__ == "__main__":
-	house = { "Ravenclaw": 1, "Slytherin": 2, "Gryffindor": 3, "Hufflepuff": 4 }
-	house_rev = { value: key for key, value in house.items() }
-	result = [0] * 4
-	df = get_data()
-	df.drop('Index', axis=1, inplace=True)
-	df.drop('Arithmancy', axis=1, inplace=True)
-	df.drop("Potions", axis=1, inplace=True)
-	df.drop("Care of Magical Creatures", axis=1, inplace=True)
-	df.drop("Charms", axis=1, inplace=True)
-	df.drop("Flying", axis=1, inplace=True)
+	student_results = []
+	df, weights = get_data_visual("predicts student's house with our model", 2)
+	df.drop(["Index", "Arithmancy", "Potions", "Care of Magical Creatures", "Charms","Flying"], axis=1, inplace=True)
 	df = df[["Hogwarts House"] + list(df.select_dtypes(include="number").columns)]
-	weight = pd.read_csv("weights.csv")
-	print(weight)
-	for row in df:
-		print (df)
+	row_list = [["Index", "Hogwarts House"]]
+	for i in range(len(df)):
+		tmp = predict_house(df.loc[i, :], weights.to_numpy())
+		row_list.append([i, tmp])
+	create_csv(row_list, "houses.csv")

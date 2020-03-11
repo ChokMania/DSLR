@@ -1,8 +1,8 @@
 import sys
 import pandas as pd
 import numpy as np
-from tools.compute_metrics import *
-from tools.utilities import get_data
+from tools.compute_metrics import count, mean, std, mini, quarter, median, three_quarters, maxi
+from tools.utilities import get_data_visual
 
 select_fnc = {
 	0: count,
@@ -53,7 +53,7 @@ def clean_print(columns, data):
 
 if __name__ == "__main__":
 	np.set_printoptions(suppress=True)
-	data = get_data()
+	data = get_data_visual("describe of datset (like pandas)", 0)
 	data = data.select_dtypes('number')
 	metrics = describe(data.to_numpy())
 	clean_print(data.columns, metrics)

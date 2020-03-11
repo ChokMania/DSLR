@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import describe
+from tools.utilities import get_data_visual
 
 houses={
 	"Ravenclaw": 1,
@@ -12,6 +12,7 @@ houses={
 def scatter_plot(data, col_1, col_2):
 	col_1 += 2
 	col_2 += 2
+	plt.figure()
 	plt.xlabel(data.columns[col_1])
 	plt.ylabel(data.columns[col_2])
 	data = data.to_numpy()
@@ -23,9 +24,10 @@ def scatter_plot(data, col_1, col_2):
 				x.append(row[col_1])
 				y.append(row[col_2])
 		plt.scatter(x, y, alpha=0.7, s=9)
+	plt.show()
 
 if __name__ == "__main__":
-	data = describe.get_data()
+	data = get_data_visual("display a plot", 0)
 	data["Hogwarts House"].replace(houses, inplace=True)
 	data = data.select_dtypes('number')
 	scatter_plot(data, 1, 3)

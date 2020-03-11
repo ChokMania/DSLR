@@ -1,4 +1,4 @@
-from tools.utilities import *
+from tools.utilities import house, house_rev, display_data, display_standardize, display_cost, get_data_visual, filter_data, sigmoid, create_csv
 import numpy as np
 
 def standardize(x):
@@ -36,27 +36,29 @@ def get_accuracy(x, y, theta):
 	return (correct / length) * 100
 
 if __name__ == "__main__":
-	df = get_data()
+	df, visu = get_data_visual("train our model with a dataset", 1)
 	df.drop(["Index", "Arithmancy", "Potions", "Charms", "Care of Magical Creatures", "Flying"], axis=1, inplace=True)
 	df = df[["Hogwarts House"] + list(df.select_dtypes(include="number").columns)]
-	row_list = [["House", "Feature1", "Feature2", "Theta1", "Theta2", "Theta3", "Mean", "Std", "Accuracy"]]
+	row_list = [["House", "Feature1", "Feature2", "Theta1", "Theta2", "Theta3", "Mean F1", "Mean F2", "Std F1", "Std F2", "Accuracy"]]
 	for i in range(1, 5) :
 		print(house_rev[i])
 		for f1 in range(1, len(df.columns) - 1) :
 			for f2 in range(f1 + 1, len(df.columns) - 1) :
 				x, y = filter_data(df, house_rev[i], f1, f2)
-				#print(df.columns[f1], " vs ",df.columns[f2])
-				#display_data(x, y, house_rev[1], df, f1, f2)
+				print(df.columns[f1], " vs ",df.columns[f2])
+				if visu != 0 and house_rev[i] == visu and f1 == 1 and f2 == 2:
+					display_data(x, y, house_rev[i], df, f1, f2)
 				x, mean, std = standardize(x)
 				col, row = x.shape[0], x.shape[1]
 				x = np.insert(x, 0, 1, axis=1)
 				y = y.reshape(col, 1)
 				theta = np.zeros((row + 1, 1))
 				theta, error_history = train_theta(x, y, theta, 1, 400)
-				#display_standardize(x, y, house_rev[1], df, f1, f2, t)
-				#display_cost(error_history)
+				if visu != 0 and house_rev[i] == visu and f1 == 1 and f2 == 2:
+					display_standardize(x, y, house_rev[i], df, f1, f2, theta)
+					display_cost(error_history)
 				ac = get_accuracy(x, y, theta)
-				#print("Accuracy: {}".format(ac))
-				#if ac >= 97 :
-				row_list.append([house_rev[i], df.columns[f1], df.columns[f2], theta[0], theta[1], theta[2], mean, std, ac])
-	create_csv(row_list, "weight.csv")
+				print("Accuracy: {}".format(ac))
+				if ac >= 97 :
+					row_list.append([house_rev[i], df.columns[f1], df.columns[f2], theta[0][0], theta[1][0], theta[2][0], mean[0], mean[1], std[0], std[1], ac])
+	create_csv(row_list, "weights.csv")
