@@ -7,6 +7,37 @@ def count(data):
 			count += 1
 	return float(count)
 
+def unique(data):
+	list_unique = []
+	for i in data:
+		if i not in list_unique:
+			list_unique.append(i)
+	return len(list_unique)
+
+def top(data):
+	global index
+	list_unique = []
+	number_unique = []
+	for i in data:
+		if i not in list_unique:
+			list_unique.append(i)
+			number_unique.append(1)
+		else:
+			number_unique[list_unique.index(i)] += 1
+	index = number_unique.index(max(number_unique))
+	return list_unique[index]
+
+def freq(data):
+	list_unique = []
+	number_unique = []
+	for i in data:
+		if i not in list_unique:
+			list_unique.append(i)
+			number_unique.append(1)
+		else:
+			number_unique[list_unique.index(i)] += 1
+	return number_unique[number_unique.index(max(number_unique))]
+
 def mean(data):
 	curr_count = count(data)
 	if curr_count == 0:

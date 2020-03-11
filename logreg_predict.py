@@ -20,13 +20,33 @@ def predict_house(student, weights):
 			results[i] = 0
 	return (house_rev[results.index(max(results)) + 1])
 
+def get_accuracy(y_true, y_pred):
+	correct_pred = 0
+	length = len(y_true)
+	for i in range(length):
+		if (y_true[i] == y_pred[i]):
+			correct_pred += 1
+	return correct_pred / length
+
+def is_valid(df):
+	df = df[["Hogwarts House"]]
+	if df.isnull().values.any() == True:
+		return 0
+	return 1
+
 if __name__ == "__main__":
 	student_results = []
-	df, weights = get_data_visual("predicts student's house with our model", 2)
+	df, weights, accuracy = get_data_visual("predicts student's house with our model", 2)
 	df.drop(["Index", "Arithmancy", "Potions", "Care of Magical Creatures", "Charms","Flying"], axis=1, inplace=True)
 	df = df[["Hogwarts House"] + list(df.select_dtypes(include="number").columns)]
 	row_list = [["Index", "Hogwarts House"]]
 	for i in range(len(df)):
 		tmp = predict_house(df.loc[i, :], weights.to_numpy())
+		student_results.append(tmp)
 		row_list.append([i, tmp])
+	if (accuracy == 1):
+		if (is_valid(df)):
+			print("Accuracy:", get_accuracy(df["Hogwarts House"].tolist(), student_results))
+		else:
+			print("Could not print accuracy because a class is not specified")
 	create_csv(row_list, "houses.csv")

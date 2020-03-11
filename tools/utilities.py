@@ -1,4 +1,3 @@
-import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -55,8 +54,11 @@ def get_data_visual(usage, param):
 	parser.add_argument("dataset", type=check_dataset, help="dataset, needs to be a csv")
 	if (param == 2) :
 		parser.add_argument("weights", type=check_dataset, help="weights, needs to be a csv")
+		parser.add_argument("-a", "--accuracy", action="store_true", help="show accuracy for dataset_train")
 		args = parser.parse_args()
-		return pd.read_csv(args.dataset), pd.read_csv(args.weights)
+		if args.accuracy is True :
+			return pd.read_csv(args.dataset), pd.read_csv(args.weights), 1
+		return pd.read_csv(args.dataset), pd.read_csv(args.weights), 0
 	if (param == 1) :
 		parser.add_argument("-v", type=str, choices=["Ravenclaw", "Slytherin", "Gryffindor", "Hufflepuff"], help="display data of one house in a separate windows")
 		args = parser.parse_args()
