@@ -29,5 +29,5 @@ if __name__ == "__main__":
 	data = data.select_dtypes('number')
 	metrics = describe.describe(data.to_numpy())
 	metrics = metrics.tolist()
-	col = metrics[2].index(min(metrics[2]))
+	col = metrics[5].index(min(metrics[5]))
 	plot_hist(data, col)
