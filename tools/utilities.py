@@ -6,6 +6,9 @@ import argparse
 
 house = { "Ravenclaw": 1, "Slytherin": 2, "Gryffindor": 3, "Hufflepuff": 4 }
 house_rev = { value: key for key, value in house.items() }
+f1 = -1
+f2 = -1
+h = 0
 
 def display_data(x, y, house, df, f1, f2):
 	plt.figure()
@@ -49,22 +52,60 @@ def check_dataset(dataset):
 		raise argparse.ArgumentTypeError("invalid dataset, needs to be a csv file")
 	return dataset
 
+def check_input(v):
+	global h
+	global f2
+	global f1
+	if h == 0 and v in house:
+		h = house[v]
+		return house[v]
+	elif h != 0 and int(v) >= 1 and int(v) <= 7 :
+		if f1 == -1:
+			f1 = int(v)
+			if f1 == 7:
+				f1 = 6
+			return f1
+		elif f2 == -1:
+			f2 = int(v)
+			if f2 <= f1:
+				f2 = f1 + 1
+			return f2
+	raise argparse.ArgumentTypeError("invalid input")
+
+def pie_chart(results, title):
+	labels = []
+	sizes = []
+	for i in results:
+		if (not i in labels):
+			labels.append(i)
+			sizes.append(0)
+	for i in results:
+		sizes[labels.index(i)] += 1
+	plt.figure()
+	plt.title(title)
+	plt.pie(sizes, labels=labels, autopct='%1.2f%%', shadow=True, startangle=90)
+	plt.show()
+
 def get_data_visual(usage, param):
 	parser = argparse.ArgumentParser(description=usage)
 	parser.add_argument("dataset", type=check_dataset, help="dataset, needs to be a csv")
 	if (param == 2) :
 		parser.add_argument("weights", type=check_dataset, help="weights, needs to be a csv")
 		parser.add_argument("-a", "--accuracy", action="store_true", help="show accuracy for dataset_train")
+		parser.add_argument("-p", "--piechart", action="store_true", help="print a piechart for the results")
 		args = parser.parse_args()
+		args.piechart = 1 if args.piechart is True else 0
 		if args.accuracy is True :
-			return pd.read_csv(args.dataset), pd.read_csv(args.weights), 1
-		return pd.read_csv(args.dataset), pd.read_csv(args.weights), 0
+			return pd.read_csv(args.dataset), pd.read_csv(args.weights), 1, args.piechart
+		return pd.read_csv(args.dataset), pd.read_csv(args.weights), 0, args.piechart
 	if (param == 1) :
-		parser.add_argument("-v", type=str, choices=["Ravenclaw", "Slytherin", "Gryffindor", "Hufflepuff"], help="display data of one house in a separate windows")
+		parser.add_argument("-v", "--verbose", action="store_true", help="display in real time actions of training")
+		parser.add_argument("-vi", type=check_input, nargs=3, metavar=('House','N_feature1', "N_feature2"), help="display data of one house in a separate windows")
 		args = parser.parse_args()
-		if args.v is not None :
-			return pd.read_csv(args.dataset), args.v
-		return pd.read_csv(args.dataset), 0
+		args.verbose =  1 if args.verbose is True else 0
+		if args.vi is not None :
+			return pd.read_csv(args.dataset), args.vi[0], args.vi[1], args.vi[2], args.verbose
+		return pd.read_csv(args.dataset), 0, 0, 0, args.verbose
 	args = parser.parse_args()
 	return pd.read_csv(args.dataset)
 
