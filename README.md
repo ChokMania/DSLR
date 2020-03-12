@@ -122,5 +122,5 @@ optional arguments:
 
 <img src="./images/Figure_8.png">
 
-Autors
+## Autors
 [Aleksi Gautier](https://github.com/Kelias-42) et [Julien Dumay](https://github.com/ChokMania/)
