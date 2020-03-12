@@ -15,7 +15,7 @@ def plot_hist(data, col):
 	plt.title(data.columns[col])
 	data = data.to_numpy()
 	for i in range(1, 5):
-		curr_house = []	
+		curr_house = []
 		for row in data:
 			if row[1] == i and not np.isnan(row[col]):
 				curr_house.append(row[col])
@@ -24,7 +24,7 @@ def plot_hist(data, col):
 
 if __name__ == "__main__":
 	np.set_printoptions(suppress=True)
-	data = describe.get_data_visual("display an histogram", 0)
+	data = get_data_visual("display an histogram", 0)
 	data["Hogwarts House"].replace(houses, inplace=True)
 	data = data.select_dtypes('number')
 	metrics = describe.describe(data.to_numpy())

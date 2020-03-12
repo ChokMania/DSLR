@@ -20,6 +20,7 @@ def display_data(x, y, house, df, f1, f2):
 	plt.xlabel(df.columns[f1])
 	plt.ylabel(df.columns[f2])
 	plt.legend([house, "Not " + house],loc=0)
+	plt.title("Feature1 vs Feature2 data")
 	plt.show()
 
 def display_standardize(x, y, house, df, f1, f2, theta):
@@ -34,6 +35,7 @@ def display_standardize(x, y, house, df, f1, f2, theta):
 	plt.xlabel(df.columns[f1])
 	plt.ylabel(df.columns[f2])
 	plt.legend([house, "Not " + house],loc=0)
+	plt.title("Feature1 vs Feature2 standardized data")
 	plt.plot(x_value, y_value, "g")
 	plt.show()
 
