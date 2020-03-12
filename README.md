@@ -121,3 +121,6 @@ optional arguments:
 >This will predict a house for each student in the test dataset, and with -p option, display a pie chart
 
 <img src="./images/Figure_8.png">
+
+Autors
+[Aleksi Gautier](https://github.com/Kelias-42) et [Julien Dumay](https://github.com/ChokMania/)
