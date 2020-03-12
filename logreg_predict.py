@@ -54,3 +54,4 @@ if __name__ == "__main__":
 	if (pc):
 		pie_chart(student_results, "Prediction results")
 	create_csv(row_list, "houses.csv")
+	print("Weights saved in './houses.csv'")

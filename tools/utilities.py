@@ -59,18 +59,26 @@ def check_input(v):
 	if h == 0 and v in house:
 		h = house[v]
 		return house[v]
-	elif h != 0 and int(v) >= 1 and int(v) <= 7 :
+	try :
+		int(v)
+	except:
+		raise argparse.ArgumentTypeError("Invalid input for features, arg '{}' needs to be a number".format(v))
+	if h != 0 and int(v) >= 1 and int(v) <= 7 :
 		if f1 == -1:
 			f1 = int(v)
 			if f1 == 7:
 				f1 = 6
+				print("Value of Feature1 changed to", f1)
 			return f1
 		elif f2 == -1:
 			f2 = int(v)
 			if f2 <= f1:
 				f2 = f1 + 1
+				print("Value of Feature2 changed to", f2)
 			return f2
-	raise argparse.ArgumentTypeError("invalid input")
+	if h == 0 and v not in house:
+		raise argparse.ArgumentTypeError("'{}' is not a valid house. Choose between Ravenclaw, Slytherin, Gryffindor or Hufflepuff".format(v))
+	raise argparse.ArgumentTypeError("Invalid input for features, arg '{}' needs to be beetween 1 and 7 (included)".format(v))
 
 def pie_chart(results, title):
 	labels = []

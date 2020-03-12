@@ -42,14 +42,12 @@ if __name__ == "__main__":
 	row_list = [["House", "Feature1", "Feature2", "Theta1", "Theta2", "Theta3", "Mean F1", "Mean F2", "Std F1", "Std F2", "Accuracy"]]
 	for i in range(1, 5) :
 		if verbose == 1:
-			print(house_rev[i])
+			print("\n\t\t\t\033[33m", house_rev[i].upper(), "\033[0m\n")
 		for f1 in range(1, len(df.columns) - 1) :
 			for f2 in range(f1 + 1, len(df.columns) - 1) :
 				x, y = filter_data(df, house_rev[i], f1, f2)
 				if verbose == 1:
 					print(df.columns[f1], " vs ",df.columns[f2])
-				print(i, f1, f2)
-				print(visu, f1v, f2v)
 				if visu != 0 and i == visu and f1 == f1v and f2 == f2v:
 					display_data(x, y, house_rev[i], df, f1, f2)
 				x, mean, std = standardize(x)
@@ -63,7 +61,8 @@ if __name__ == "__main__":
 					display_cost(error_history)
 				ac = get_accuracy(x, y, theta)
 				if verbose == 1:
-					print("Accuracy: {}".format(ac))
+					print("\t\t\t\t\t\t\t\033[36mAccuracy: {}\033[0m".format(ac))
 				if ac >= 97 :
 					row_list.append([house_rev[i], df.columns[f1], df.columns[f2], theta[0][0], theta[1][0], theta[2][0], mean[0], mean[1], std[0], std[1], ac])
 	create_csv(row_list, "weights.csv")
+	print("Weights saved in './weights.csv'")
