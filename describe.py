@@ -54,7 +54,6 @@ def clean_print(columns, data):
 if __name__ == "__main__":
 	np.set_printoptions(suppress=True)
 	data = get_data_visual("describe of datset (like pandas)", 0)
-	print(data.describe(include="all"), "\n\n")
 	data = data.select_dtypes('number')
 	include =['object', 'float', 'int'] 
 	metrics = describe(data.to_numpy())

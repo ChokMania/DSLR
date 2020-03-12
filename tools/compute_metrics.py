@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def count(data):
 	count = 0
@@ -62,6 +63,17 @@ def std(data):
 def mini(data):
 	return float(min(data))
 
+def percentile(data, percent):
+	if not data.any:
+		return (None)
+	data = np.sort(data)
+	rank = (len(data) - 1) * percent
+	low = math.floor(rank)
+	high = math.ceil(rank)
+	if (low == high):
+		return data[int(rank)]
+	return data[int(low)] * (high - rank) + data[int(high)] * (rank - low)
+
 def quarter(data):
 	tmp_data=[]
 	for i in data:
@@ -69,7 +81,7 @@ def quarter(data):
 			tmp_data.append(i)
 	if (len(tmp_data) == 0):
 		return float("NaN")
-	return np.percentile(np.array(tmp_data), 25)
+	return percentile(np.array(tmp_data), 0.25)
 
 def median(data):
 	tmp_data=[]
@@ -78,7 +90,7 @@ def median(data):
 			tmp_data.append(i)
 	if (len(tmp_data) == 0):
 		return float("NaN")
-	return np.percentile(np.array(tmp_data), 50)
+	return percentile(np.array(tmp_data), 0.50)
 
 def three_quarters(data):
 	tmp_data=[]
@@ -87,7 +99,7 @@ def three_quarters(data):
 			tmp_data.append(i)
 	if (len(tmp_data) == 0):
 		return float("NaN")
-	return np.percentile(np.array(tmp_data), 75)
+	return percentile(np.array(tmp_data), 0.75)
 
 def maxi(data):
 	return float(max(data))
