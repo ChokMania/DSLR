@@ -1,4 +1,4 @@
-from tools.utilities import house, house_rev, display_data, display_standardize, display_cost, get_data_visual, filter_data, sigmoid, create_csv
+from tools.utilities import house_rev, display_data, display_standardize, display_cost, get_data_visual, filter_data, sigmoid, create_csv
 import numpy as np
 
 def standardize(x):

@@ -12,11 +12,9 @@ h = 0
 
 def display_data(x, y, house, df, f1, f2):
 	plt.figure()
-	# A REFAIRE
 	pos , neg = (y==1).reshape(len(x[:,0]),1) , (y==0).reshape(len(x[:,1]),1)
 	plt.scatter(x[pos[:,0],0],x[pos[:,0],1],c="r",marker="+")
 	plt.scatter(x[neg[:,0],0],x[neg[:,0],1],marker="o",s=10)
-	# /A REFAIRE
 	plt.xlabel(df.columns[f1])
 	plt.ylabel(df.columns[f2])
 	plt.legend([house, "Not " + house],loc=0)
@@ -25,11 +23,9 @@ def display_data(x, y, house, df, f1, f2):
 
 def display_standardize(x, y, house, df, f1, f2, theta):
 	plt.figure()
-	# A REFAIRE
 	pos , neg = (y==1).reshape(len(x[:,0]),1) , (y==0).reshape(len(x[:,2]),1)
 	plt.scatter(x[pos[:,0],1],x[pos[:,0],2],c="r",marker="+")
 	plt.scatter(x[neg[:,0],1],x[neg[:,0],2],marker="o",s=10)
-	# /A REFAIRE
 	x_value = np.array([np.min(x[:,1]),np.max(x[:,1])])
 	y_value = -(theta[0] + theta[1]*x_value)/theta[2]
 	plt.xlabel(df.columns[f1])

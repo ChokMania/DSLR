@@ -1,5 +1,3 @@
-import sys
-import pandas as pd
 import numpy as np
 from tools.compute_metrics import count, unique, top, freq, mean, std, mini, quarter, median, three_quarters, maxi
 from tools.utilities import get_data_visual

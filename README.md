@@ -31,52 +31,56 @@ clean unnecessary information from your data.
 
 ### Install
 <pre>
-<code>git clone </code>
+<code>git clone https://github.com/ChokMania/DSLR.git</code>
 <code>python -m pip install -r lib.txt</code></pre> 
 
 ### Usage
 
 #### Describe
-To describe dataset
+Describes the dataset
 <pre><code>python describe.py "./resources/dataset_train.csv"</code>
-This will display a describe of dataset, like pandas
 </pre>
+>This will display a description of the dataset, similar to pandas.describe
+
 <img src="./images/Figure_1.png">
 
 #### Histrogam
-To display a histogram answering:
+Displays a histogram answering the following question:
 
 Which Hogwarts course has a homogeneous score distribution between all four houses ?
 <pre><code>python histogram.py "./resources/dataset_train.csv"</code>
-This will open a new window with a histogram
 </pre>
+>This will open a new window with a histogram
+
 <img src="./images/Figure_2.png">
 
 #### Scatter Plot
 
-To display a scatter plot answering:
+Displays a scatter plot answering the following question:
 
 What are the two features that are similar ?
 <pre><code>python scatter_plot.py "./resources/dataset_train.csv"</code>
-This will open a new window with a scatter plot 
 </pre>
+>This will open a new window with a scatter plot 
+
 <img src="./images/Figure_3.png">
 
 #### Pair Plot
-To display a pair plot or scatter plot matrix answering:
+Displays a pair plot or scatter plot matrix answering the following question:
 
 From this visualization, what features are you going to use for your logistic regression?
 <pre><code>python pair_plot.py "./resources/dataset_train.csv"</code>
-This will open a new window with a pair plot with "seaborn"
 </pre>
+>This will open a new window with a pair plot using seaborn
+
 <img src="./images/Figure_4.png">
 
 #### Train
-To train our model
+Trains our model
 <pre><code>python logreg_train.py -h</code>
 usage: logreg_train.py [-h] [-v] [-vi House N_feature1 N_feature2] dataset
 
-train our model with a dataset
+Trains our model with the specified dataset
 
 positional arguments:
   dataset: dataset, needs to be a csv
@@ -87,15 +91,17 @@ optional arguments:
   -vi House N_feature1 N_feature2: display data of one house in a separate windows
 
 <code>python logreg_train.py "./resources/dataset_train.csv" -vi "Ravenclaw" 1 2</code>
-This will train our model with the dataset, and with -vi option, display graph about this training in "one vs all" format"
 </pre>
+>This will train our model with the dataset.
+
+>Adding the -vi option will display a graph on the training session in a "one vs all" format
+
 <img src="./images/Figure_5.png">
 <img src="./images/Figure_6.png">
 <img src="./images/Figure_7.png">
-</pre>
 
 #### Predict
-To predict a house with our model
+Predicts a house with our model
 <pre><code>python logreg_predict.py -h</code>
 usage: logreg_predict.py [-h] [-a] [-p] dataset weights
 
@@ -111,7 +117,7 @@ optional arguments:
   -p, --piechart: print a piechart for the results
 
 <code>python logreg_predict.py "./resources/dataset_test.csv" "./weights.csv" -p</code>
-This will predict a house for each student in the test dataset, and with -p option, display a pie chart
 </pre>
+>This will predict a house for each student in the test dataset, and with -p option, display a pie chart
+
 <img src="./images/Figure_8.png">
-</pre>

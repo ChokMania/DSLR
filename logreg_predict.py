@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from tools.utilities import house, house_rev, get_data_visual, sigmoid, create_csv, pie_chart
 
 def predict_house(student, weights):
