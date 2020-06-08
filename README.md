@@ -44,7 +44,7 @@ Describes the dataset
 
 <img src="./images/Figure_1.png">
 
-#### Histrogam
+#### Histogram
 Displays a histogram answering the following question:
 
 Which Hogwarts course has a homogeneous score distribution between all four houses ?
@@ -122,5 +122,5 @@ optional arguments:
 
 <img src="./images/Figure_8.png">
 
-## Autors
+## Authors
 [Aleksi Gautier](https://github.com/Kelias-42) et [Julien Dumay](https://github.com/ChokMania/)
