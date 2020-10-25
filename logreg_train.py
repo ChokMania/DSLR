@@ -19,7 +19,7 @@ def d_cost_function(x, y, theta):
 
 def train_theta(x, y, theta, lr, epoch):
 	error_history = []
-	for i in range(epoch):
+	for _ in range(epoch):
 		theta -= lr * d_cost_function(x, y, theta)
 		error_history.append(cost_function(x, y, theta))
 	return theta, error_history
