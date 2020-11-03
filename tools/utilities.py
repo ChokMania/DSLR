@@ -142,3 +142,10 @@ def create_csv(row_list, name):
 	with open(name, 'w', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerows(row_list)
+
+
+def is_valid(df):
+	df = df[["Hogwarts House"]]
+	if df.isnull().values.any():
+		return 0
+	return 1

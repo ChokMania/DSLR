@@ -1,5 +1,6 @@
-from tools.utilities import house_rev, display_data, display_standardize, display_cost, get_data_visual, filter_data, sigmoid, create_csv
+from tools.utilities import house_rev, display_data, display_standardize, display_cost, get_data_visual, filter_data, sigmoid, create_csv, is_valid
 import numpy as np
+import sys
 
 
 def standardize(x):
@@ -44,6 +45,8 @@ def get_accuracy(x, y, theta):
 
 if __name__ == "__main__":
 	df, visu, f1v, f2v, verbose = get_data_visual("train our model with a dataset", 1)
+	if not is_valid(df):
+		sys.exit("Wrong dataset")
 	df.drop(["Index", "Arithmancy", "Potions", "Charms", "Care of Magical Creatures", "Flying"], axis=1, inplace=True)
 	df = df[["Hogwarts House"] + list(df.select_dtypes(include="number").columns)]
 	row_list = [["House", "Feature1", "Feature2", "Theta1", "Theta2", "Theta3", "Mean F1", "Mean F2", "Std F1", "Std F2", "Accuracy"]]

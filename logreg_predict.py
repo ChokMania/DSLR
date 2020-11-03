@@ -1,5 +1,5 @@
 import numpy as np
-from tools.utilities import house, house_rev, get_data_visual, sigmoid, create_csv, pie_chart
+from tools.utilities import house, house_rev, get_data_visual, sigmoid, create_csv, pie_chart, is_valid
 
 
 def predict_house(student, weights):
@@ -30,13 +30,6 @@ def get_accuracy(y_true, y_pred):
 	return correct_pred / length
 
 
-def is_valid(df):
-	df = df[["Hogwarts House"]]
-	if df.isnull().values.any() is True:
-		return 0
-	return 1
-
-
 if __name__ == "__main__":
 	student_results = []
 	df, weights, accuracy, pc = get_data_visual("predicts student's house with our model", 2)
@@ -47,8 +40,8 @@ if __name__ == "__main__":
 		tmp = predict_house(df.loc[i, :], weights.to_numpy())
 		student_results.append(tmp)
 		row_list.append([i, tmp])
-	if (accuracy):
-		if (is_valid(df)):
+	if accuracy:
+		if is_valid(df):
 			print("Accuracy:", get_accuracy(df["Hogwarts House"].tolist(), student_results))
 			if (pc):
 				pie_chart(df["Hogwarts House"].to_list(), "Actual data")
