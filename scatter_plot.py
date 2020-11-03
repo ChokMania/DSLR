@@ -2,12 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tools.utilities import get_data_visual
 
-houses={
+houses = {
 	"Ravenclaw": 1,
 	"Slytherin": 2,
 	"Gryffindor": 3,
 	"Hufflepuff": 4
 }
+
 
 def scatter_plot(data, col_1, col_2):
 	col_1 += 2
@@ -16,7 +17,7 @@ def scatter_plot(data, col_1, col_2):
 	plt.xlabel(data.columns[col_1])
 	plt.ylabel(data.columns[col_2])
 	data = data.to_numpy()
-	for house in range (1, 5):
+	for house in range(1, 5):
 		x = []
 		y = []
 		for row in data:
@@ -25,6 +26,7 @@ def scatter_plot(data, col_1, col_2):
 				y.append(row[col_2])
 		plt.scatter(x, y, alpha=0.7, s=9)
 	plt.show()
+
 
 if __name__ == "__main__":
 	data = get_data_visual("display a plot", 0)

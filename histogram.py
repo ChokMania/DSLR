@@ -3,12 +3,13 @@ import numpy as np
 import describe
 from tools.utilities import get_data_visual
 
-houses={
+houses = {
 	"Ravenclaw": 1,
 	"Slytherin": 2,
 	"Gryffindor": 3,
 	"Hufflepuff": 4
 }
+
 
 def plot_hist(data, col):
 	plt.figure()
@@ -21,6 +22,7 @@ def plot_hist(data, col):
 				curr_house.append(row[col])
 		plt.hist(curr_house, alpha=0.5)
 	plt.show()
+
 
 if __name__ == "__main__":
 	np.set_printoptions(suppress=True)

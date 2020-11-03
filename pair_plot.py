@@ -7,5 +7,5 @@ if __name__ == "__main__":
 	file = get_data_visual("display a a pair_plot", 0)
 	file.drop('Index', axis=1, inplace=True)
 	data = file[["Hogwarts House"] + list(file.select_dtypes(include="number").columns)].dropna()
-	sns.pairplot(data, hue="Hogwarts House", palette="husl", markers = ".")
+	sns.pairplot(data, hue="Hogwarts House", palette="husl", markers=".")
 	plt.show()

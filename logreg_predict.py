@@ -1,6 +1,7 @@
 import numpy as np
 from tools.utilities import house, house_rev, get_data_visual, sigmoid, create_csv, pie_chart
 
+
 def predict_house(student, weights):
 	results = [[], [], [], []]
 	for row in weights:
@@ -19,6 +20,7 @@ def predict_house(student, weights):
 			results[i] = 0
 	return (house_rev[results.index(max(results)) + 1])
 
+
 def get_accuracy(y_true, y_pred):
 	correct_pred = 0
 	length = len(y_true)
@@ -27,16 +29,18 @@ def get_accuracy(y_true, y_pred):
 			correct_pred += 1
 	return correct_pred / length
 
+
 def is_valid(df):
 	df = df[["Hogwarts House"]]
-	if df.isnull().values.any() == True:
+	if df.isnull().values.any() is True:
 		return 0
 	return 1
+
 
 if __name__ == "__main__":
 	student_results = []
 	df, weights, accuracy, pc = get_data_visual("predicts student's house with our model", 2)
-	df.drop(["Index", "Arithmancy", "Potions", "Care of Magical Creatures", "Charms","Flying"], axis=1, inplace=True)
+	df.drop(["Index", "Arithmancy", "Potions", "Care of Magical Creatures", "Charms", "Flying"], axis=1, inplace=True)
 	df = df[["Hogwarts House"] + list(df.select_dtypes(include="number").columns)]
 	row_list = [["Index", "Hogwarts House"]]
 	for i in range(len(df)):
