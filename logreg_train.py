@@ -44,12 +44,14 @@ def get_accuracy(x, y, theta):
 
 
 if __name__ == "__main__":
-	df, visu, f1v, f2v, verbose = get_data_visual("train our model with a dataset", 1)
+	df, visu, f1v, f2v, verbose, min_ac = get_data_visual("train our model with a dataset", 1)
 	if not is_valid(df):
 		sys.exit("Wrong dataset")
 	df.drop(["Index", "Arithmancy", "Potions", "Charms", "Care of Magical Creatures", "Flying"], axis=1, inplace=True)
 	df = df[["Hogwarts House"] + list(df.select_dtypes(include="number").columns)]
 	row_list = [["House", "Feature1", "Feature2", "Theta1", "Theta2", "Theta3", "Mean F1", "Mean F2", "Std F1", "Std F2", "Accuracy"]]
+	if verbose == 1:
+		print(f"\n\n\t\tMinimum accuracy accepted : {min_ac}")
 	for i in range(1, 5):
 		if verbose == 1:
 			print("\n\t\t\t\033[33m", house_rev[i].upper(), "\033[0m\n")
@@ -70,9 +72,11 @@ if __name__ == "__main__":
 					display_standardize(x, y, house_rev[i], df, f1, f2, theta)
 					display_cost(error_history)
 				ac = get_accuracy(x, y, theta)
-				if verbose == 1:
-					print("\t\t\t\t\t\t\t\033[36mAccuracy: {}\033[0m".format(ac))
-				if ac >= 97:
+				if ac >= min_ac:
+					if verbose == 1:
+						print(f"\t\t\t\t\t\t\t\033[36mAccuracy: {ac}\033[0m\t\033[32mGOOD\033[0m")
 					row_list.append([house_rev[i], df.columns[f1], df.columns[f2], theta[0][0], theta[1][0], theta[2][0], mean[0], mean[1], std[0], std[1], ac])
+				elif verbose == 1:
+					print(f"\t\t\t\t\t\t\t\033[36mAccuracy: {ac}\033[0m\t\033[31mBAD\033[0m")
 	create_csv(row_list, "weights.csv")
 	print("Weights saved in './weights.csv'")

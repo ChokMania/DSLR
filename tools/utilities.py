@@ -112,13 +112,14 @@ def get_data_visual(usage, param):
 			return pd.read_csv(args.dataset), pd.read_csv(args.weights), 1, args.piechart
 		return pd.read_csv(args.dataset), pd.read_csv(args.weights), 0, args.piechart
 	if (param == 1):
+		parser.add_argument("-m", "--minimum", metavar="number", type=int, default=97, help="Minimum accuracy")
 		parser.add_argument("-v", "--verbose", action="store_true", help="display in real time actions of training")
 		parser.add_argument("-vi", type=check_input, nargs=3, metavar=('House', 'N_feature1', "N_feature2"), help="display data of one house in a separate windows")
 		args = parser.parse_args()
 		args.verbose = 1 if args.verbose is True else 0
 		if args.vi is not None:
-			return pd.read_csv(args.dataset), args.vi[0], args.vi[1], args.vi[2], args.verbose
-		return pd.read_csv(args.dataset), 0, 0, 0, args.verbose
+			return pd.read_csv(args.dataset), args.vi[0], args.vi[1], args.vi[2], args.verbose, args.minimum
+		return pd.read_csv(args.dataset), 0, 0, 0, args.verbose, args.minimum
 	args = parser.parse_args()
 	return pd.read_csv(args.dataset)
 

@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import describe
-from tools.utilities import get_data_visual
+import pandas as pd
+import sys
 
 houses = {
 	"Ravenclaw": 1,
@@ -26,7 +27,10 @@ def plot_hist(data, col):
 
 if __name__ == "__main__":
 	np.set_printoptions(suppress=True)
-	data = get_data_visual("display an histogram", 0)
+	try:
+		data = pd.read_csv("resources/dataset_train.csv")
+	except:
+		sys.exit("Error")
 	data["Hogwarts House"].replace(houses, inplace=True)
 	data = data.select_dtypes('number')
 	metrics = describe.describe(data.to_numpy())

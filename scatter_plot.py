@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from tools.utilities import get_data_visual
+import pandas as pd
+import sys
 
 houses = {
 	"Ravenclaw": 1,
@@ -29,7 +30,10 @@ def scatter_plot(data, col_1, col_2):
 
 
 if __name__ == "__main__":
-	data = get_data_visual("display a plot", 0)
+	try:
+		data = pd.read_csv("resources/dataset_train.csv")
+	except:
+		sys.exit("Error")
 	data["Hogwarts House"].replace(houses, inplace=True)
 	data = data.select_dtypes('number')
 	scatter_plot(data, 1, 3)
